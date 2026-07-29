@@ -8,15 +8,18 @@ import { getCollection } from 'astro:content';
 
 const posts = await getCollection('blog');
 
-const ideasPosts = posts.filter(
-	(post) => post.id.startsWith('ideas/')
-);
+const ideasPosts = posts
+	.filter((post) => post.data.category === 'ideas')
+	.sort(
+		(a, b) =>
+			b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+	);
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={`Trading | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<BaseHead title={`Ideas | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
 	</head>
 
 	<body>
@@ -39,6 +42,23 @@ const ideasPosts = posts.filter(
 				</a>
 
 				<p>{post.data.description}</p>
+
+<p>
+	{post.data.pubDate.toDateString()}
+</p>
+<p>
+	Category: {post.data.category}
+</p>
+<p>
+	Tags:
+	{
+	post.data.tags && (
+		<p>
+			Tags: {post.data.tags.join(' · ')}
+		</p>
+	)
+}
+</p>
 			</li>
 		))
 	}
