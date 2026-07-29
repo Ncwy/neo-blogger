@@ -8,9 +8,6 @@ tags:
   - learning
   - creation
 ---
-
-# Neo Blog Start
-
 ## Why I build this blog
 
 This blog is not only a place to publish articles.
