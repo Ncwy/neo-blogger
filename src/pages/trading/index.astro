@@ -1,0 +1,51 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+
+const tradingPosts = posts.filter(
+	(post) => post.id.startsWith('trading/')
+);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Trading | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+	</head>
+
+	<body>
+		<Header />
+
+		<main>
+			<h1>📈 Trading</h1>
+
+			<p>
+				Trading journal, market observations, strategies,
+				and lessons learned.
+			</p>
+      <h2>Articles</h2>
+
+<ul>
+	{
+		tradingPosts.map((post) => (
+			<li>
+				<a href={`${import.meta.env.BASE_URL}blog/${post.id}/`}>
+					{post.data.title}
+				</a>
+
+				<p>{post.data.description}</p>
+			</li>
+		))
+	}
+</ul>
+		</main>
+
+		<Footer />
+	</body>
+</html>
