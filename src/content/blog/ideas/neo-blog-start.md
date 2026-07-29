@@ -2,6 +2,7 @@
 title: "Neo Blog Start"
 description: "Building my personal knowledge system with Trading, Life and Ideas."
 pubDate: 2026-07-29
+category: "ideas"
 tags:
   - system
   - learning
