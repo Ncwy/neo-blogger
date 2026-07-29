@@ -5,7 +5,12 @@ import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('blog')).slice(0, 5);
+const posts = (await getCollection('blog'))
+	.sort(
+		(a, b) =>
+			b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+	)
+	.slice(0, 5);
 ---
 
 <!doctype html>
@@ -52,6 +57,22 @@ const posts = (await getCollection('blog')).slice(0, 5);
 	</h3>
 
 	<p>{post.data.description}</p>
+
+	<p>
+		{post.data.pubDate.toDateString()}
+	</p>
+
+	<p>
+		Category: {post.data.category}
+	</p>
+
+	{
+		post.data.tags && (
+			<p>
+				Tags: {post.data.tags.join(' · ')}
+			</p>
+		)
+	}
 </li>
 			))
 		}
