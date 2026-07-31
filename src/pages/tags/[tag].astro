@@ -1,0 +1,306 @@
+---
+import { getCollection } from 'astro:content';
+
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import PostList from '../../components/PostList.astro';
+
+import { SITE_TITLE } from '../../consts';
+
+
+
+export async function getStaticPaths(){
+
+	const posts = await getCollection('blog');
+
+
+	const tags = new Set<string>();
+
+
+	posts.forEach((post)=>{
+
+		const postTags = post.data.tags ?? [];
+
+
+		postTags.forEach((tag)=>{
+
+			tags.add(tag);
+
+		});
+
+	});
+
+
+
+	return Array.from(tags)
+		.map((tag)=>({
+
+			params:{
+				tag
+			}
+
+		}));
+
+}
+
+
+
+const tag = Astro.params.tag as string;
+
+
+
+const posts = await getCollection('blog');
+
+
+
+const tagPosts = posts
+
+	.filter((post)=>{
+
+		return post.data.tags?.includes(tag);
+
+	})
+
+
+	.sort(
+
+		(a,b)=>
+
+			b.data.pubDate.valueOf()
+
+			-
+
+			a.data.pubDate.valueOf()
+
+	);
+
+---
+
+<!doctype html>
+
+<html lang="en">
+
+
+<head>
+
+
+<BaseHead
+
+	title={`Tag: ${tag} | ${SITE_TITLE}`}
+
+	description={`Articles tagged with ${tag}.`}
+
+/>
+
+
+</head>
+
+
+
+<body>
+
+
+<Header />
+
+
+
+<main>
+
+
+<section class="tag-header">
+
+
+<div class="icon">
+
+🏷
+
+</div>
+
+
+
+<h1>
+
+	{tag}
+
+</h1>
+
+
+
+<p>
+
+	Articles with this tag.
+
+</p>
+
+
+
+<p class="count">
+
+	Total posts:
+
+	<strong>
+
+		{tagPosts.length}
+
+	</strong>
+
+</p>
+
+
+
+</section>
+
+
+
+
+
+<section class="articles">
+
+
+<h2>
+
+	Articles
+
+</h2>
+
+
+
+{
+	tagPosts.length > 0
+
+	?
+
+	<PostList posts={tagPosts} />
+
+	:
+
+	<p>
+
+		No articles found.
+
+	</p>
+
+}
+
+
+</section>
+
+
+
+</main>
+
+
+
+<Footer />
+
+
+
+</body>
+
+
+
+</html>
+
+
+
+<style>
+
+
+main {
+
+	width:
+
+		calc(100% - 2rem);
+
+	max-width:
+
+		960px;
+
+	margin:auto;
+
+}
+
+
+
+.tag-header {
+
+	text-align:center;
+
+	padding:
+
+		4rem 0 3rem;
+
+}
+
+
+
+.icon {
+
+	font-size:
+
+		3rem;
+
+	margin-bottom:
+
+		1rem;
+
+}
+
+
+
+.tag-header h1 {
+
+	font-size:
+
+		3rem;
+
+	margin-bottom:
+
+		1rem;
+
+}
+
+
+
+.tag-header p {
+
+	color:
+
+		rgb(var(--gray));
+
+}
+
+
+
+.count {
+
+	margin-top:
+
+		1.5rem;
+
+}
+
+
+
+.articles {
+
+	margin-top:
+
+		2rem;
+
+}
+
+
+
+.articles h2 {
+
+	margin-bottom:
+
+		2rem;
+
+}
+
+
+
+</style>

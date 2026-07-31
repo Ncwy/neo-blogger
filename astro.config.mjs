@@ -7,7 +7,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://ncwy.github.io/neo-blogger',
-	base: '/neo-blogger',
+	base: '/neo-blogger/',
 
 	integrations: [mdx(), sitemap()],
 

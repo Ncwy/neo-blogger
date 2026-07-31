@@ -2,69 +2,395 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+import {
+	SITE_DESCRIPTION,
+	SITE_TITLE
+} from '../consts';
 ---
+
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={`About | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
-	</head>
 
-	<body>
-		<Header />
 
-		<main>
-			<h1>About Neo</h1>
+<head>
 
-			<h2>
-				Build systems.<br />
-				Learn continuously.<br />
-				Think clearly.
-			</h2>
+	<BaseHead
+		title={`About | ${SITE_TITLE}`}
+		description={SITE_DESCRIPTION}
+	/>
 
-			<p>
-				Neo Blog is a personal knowledge system
-				documenting Trading, Life, and Ideas.
-			</p>
+</head>
 
-			<h2>Three Directions</h2>
 
-			<h3>📈 Trading</h3>
-			<p>
-				Recording trading journals,
-				market observations,
-				strategy experiments,
-				and lessons learned.
-			</p>
 
-			<h3>🌱 Life</h3>
-			<p>
-				Exploring Career Lab,
-				Life OS,
-				learning systems,
-				and personal growth.
-			</p>
+<body>
 
-			<h3>💡 Ideas</h3>
-			<p>
-				Writing about thoughts,
-				technology,
-				business,
-				and systems.
-			</p>
 
-			<h2>The Goal</h2>
+<Header />
 
-			<p>
-				The goal is not to write more.
-				The goal is to think better,
-				build better systems,
-				and accumulate knowledge over time.
-			</p>
 
-		</main>
 
-		<Footer />
-	</body>
+<main>
+
+
+
+<section>
+
+
+<h1>
+	About Neo
+</h1>
+
+
+
+<h2>
+	Build systems.<br />
+	Learn continuously.<br />
+	Think clearly.
+</h2>
+
+
+
+<p>
+	Neo Blog is a personal knowledge system
+	for recording learning, experiments,
+	and ideas over time.
+</p>
+
+
+</section>
+
+
+
+
+
+<section>
+
+
+<h2>
+	Why I Build This Blog
+</h2>
+
+
+
+<p>
+	This blog is not only a place to publish articles.
+</p>
+
+
+<p>
+	It is a system to record:
+</p>
+
+
+
+<ul>
+
+	<li>
+		What I learn
+	</li>
+
+
+	<li>
+		What I build
+	</li>
+
+
+	<li>
+		What I think
+	</li>
+
+
+	<li>
+		What I discover through experiments
+	</li>
+
+</ul>
+
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+
+<h2>
+	Three Directions
+</h2>
+
+
+
+<h3>
+	📈 Trading
+</h3>
+
+
+<p>
+	Recording trading journals,
+	market observations,
+	strategy experiments,
+	and lessons learned.
+</p>
+
+
+
+
+<h3>
+	🌱 Life
+</h3>
+
+
+<p>
+	Exploring Career Lab,
+	Home Lab,
+	Life OS,
+	and personal growth systems.
+</p>
+
+
+
+
+<h3>
+	💡 Ideas
+</h3>
+
+
+<p>
+	Writing about technology,
+	business,
+	systems,
+	and observations.
+</p>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+<section>
+
+
+<h2>
+	Current Experiments
+</h2>
+
+
+
+<ul>
+
+
+<li>
+
+<strong>
+Career Lab
+</strong>
+
+<br />
+
+Exploring career direction,
+skills,
+and future opportunities.
+
+</li>
+
+
+
+<li>
+
+<strong>
+Home Lab
+</strong>
+
+<br />
+
+Building practical skills
+in systems,
+automation,
+and technology.
+
+</li>
+
+
+
+<li>
+
+<strong>
+Life OS
+</strong>
+
+<br />
+
+Designing personal systems
+for learning,
+health,
+and productivity.
+
+</li>
+
+
+
+</ul>
+
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+
+<h2>
+	Principles
+</h2>
+
+
+
+<ul>
+
+
+<li>
+Think long term.
+</li>
+
+
+<li>
+Build systems instead of relying on motivation.
+</li>
+
+
+<li>
+Learn through experiments.
+</li>
+
+
+<li>
+Keep improving through consistency.
+</li>
+
+
+</ul>
+
+
+</section>
+
+
+
+
+</main>
+
+
+
+
+<Footer />
+
+
+</body>
+
 </html>
+
+
+
+
+
+<style>
+
+
+main {
+
+	width:
+		calc(100% - 2em);
+
+
+	max-width:
+		720px;
+
+
+	margin:
+		auto;
+
+
+	padding:
+		3rem 0;
+
+}
+
+
+
+section {
+
+	padding:
+		1.5rem 0;
+
+}
+
+
+
+h1 {
+
+	margin-bottom:
+		1.5rem;
+
+}
+
+
+
+h2 {
+
+	margin-top:
+		2rem;
+
+}
+
+
+
+h3 {
+
+	margin-top:
+		1.5rem;
+
+}
+
+
+
+p {
+
+	line-height:
+		1.7;
+
+	color:
+		rgb(var(--gray-dark));
+
+}
+
+
+
+li {
+
+	margin-bottom:
+		0.8rem;
+
+
+	line-height:
+		1.6;
+
+}
+
+
+</style>

@@ -1,84 +1,248 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
 
-const posts = (await getCollection('blog'))
-	.sort(
-		(a, b) =>
-			b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-	)
-	.slice(0, 5);
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import PostList from "../components/PostList.astro";
+
+import {
+  SITE_DESCRIPTION,
+  SITE_TITLE
+} from "../consts";
+
+
+const posts = await getCollection("blog");
+
+
+const tradingPosts = posts
+  .filter(
+    (post) =>
+      post.data.category === "trading"
+  )
+  .sort(
+    (a, b) =>
+      b.data.pubDate.valueOf() -
+      a.data.pubDate.valueOf()
+  )
+  .slice(0, 3);
+
+
+
+const toolsPosts = posts
+  .filter(
+    (post) =>
+      post.data.category === "tools"
+  )
+  .sort(
+    (a, b) =>
+      b.data.pubDate.valueOf() -
+      a.data.pubDate.valueOf()
+  )
+  .slice(0, 3);
+
+
+
+const notesPosts = posts
+  .filter(
+    (post) =>
+      post.data.category === "notes"
+  )
+  .sort(
+    (a, b) =>
+      b.data.pubDate.valueOf() -
+      a.data.pubDate.valueOf()
+  )
+  .slice(0, 3);
+
 ---
+
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
+
+<head>
+
+  <BaseHead
+    title={SITE_TITLE}
+    description={SITE_DESCRIPTION}
+  />
+
+</head>
+
+
+<body>
+
+
+<Header />
+
+
 <main>
-	<h1>Neo</h1>
 
-	<h2>
-		Build systems.<br />
-		Learn continuously.<br />
-		Think clearly.
-	</h2>
 
-	<p>
-		A personal knowledge system documenting Trading, Life, and Ideas.
-	</p>
+<section class="intro">
 
-	<section>
-		<h2>Explore</h2>
+<h1>
+  Neo
+</h1>
 
-		<ul>
-			<li>📈 Trading</li>
-			<li>🌱 Life</li>
-			<li>💡 Ideas</li>
-		</ul>
-	</section>
+
+<p>
+  A minimal personal knowledge system.
+</p>
+
+</section>
+
+
 
 <section>
-	<h2>Latest Posts</h2>
 
-	<ul>
-		{
-			posts.map((post) => (
-				<li>
-	<h3>
-		<a href={`${import.meta.env.BASE_URL}blog/${post.id}/`}>
-			{post.data.title}
-		</a>
-	</h3>
+<h2>
+  Trading
+</h2>
 
-	<p>{post.data.description}</p>
+<p class="description">
+  记录交易，而不是预测市场。
+</p>
 
-	<p>
-		{post.data.pubDate.toDateString()}
-	</p>
 
-	<p>
-		Category: {post.data.category}
-	</p>
+<PostList posts={tradingPosts} />
 
-	{
-		post.data.tags && (
-			<p>
-				Tags: {post.data.tags.join(' · ')}
-			</p>
-		)
-	}
-</li>
-			))
-		}
-	</ul>
+
 </section>
+
+
+
+<section>
+
+<h2>
+  工具人系列
+</h2>
+
+
+<p class="description">
+  记录那些没人教你，但有一天你可能会用到的事情。
+</p>
+
+
+<PostList posts={toolsPosts} />
+
+
+</section>
+
+
+
+<section>
+
+<h2>
+  随笔
+</h2>
+
+
+<p class="description">
+  记录那些随着时间慢慢沉淀下来的想法。
+</p>
+
+
+<PostList posts={notesPosts} />
+
+
+</section>
+
+
 </main>
-		<Footer />
-	</body>
+
+
+<Footer />
+
+
+</body>
+
 </html>
+
+
+
+<style>
+
+
+main {
+
+  width:
+    calc(100% - 2em);
+
+  max-width:
+    720px;
+
+  margin:
+    auto;
+
+}
+
+
+
+.intro {
+
+  padding:
+    5rem 0 3rem;
+
+}
+
+
+
+.intro h1 {
+
+  font-size:
+    3rem;
+
+  margin-bottom:
+    1rem;
+
+}
+
+
+
+.intro p {
+
+  color:
+    rgb(var(--gray));
+
+  font-size:
+    1.1rem;
+
+}
+
+
+
+section {
+
+  margin:
+    4rem 0;
+
+}
+
+
+
+h2 {
+
+  margin-bottom:
+    .5rem;
+
+}
+
+
+
+.description {
+
+  color:
+    rgb(var(--gray));
+
+  line-height:
+    1.7;
+
+  margin-bottom:
+    2rem;
+
+}
+
+
+</style>

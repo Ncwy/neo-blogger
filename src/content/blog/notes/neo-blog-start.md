@@ -1,8 +1,8 @@
 ---
 title: "Neo Blog Start"
-description: "Building my personal knowledge system with Trading, Life and Ideas."
+description: "Why I started this blog."
 pubDate: 2026-07-29
-category: "ideas"
+category: "notes"
 tags:
   - system
   - learning

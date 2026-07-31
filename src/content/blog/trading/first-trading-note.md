@@ -1,6 +1,6 @@
 ---
 title: "My First Trading Note"
-description: "Recording my trading journey, observations, and lessons learned."
+description: "Trading journal and market review."
 pubDate: 2026-07-30
 category: "trading"
 tags:

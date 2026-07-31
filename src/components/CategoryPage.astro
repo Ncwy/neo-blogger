@@ -1,0 +1,98 @@
+---
+import PostList from "./PostList.astro";
+import { getCollection } from "astro:content";
+
+const {
+  category,
+  title,
+  description,
+} = Astro.props;
+
+
+const posts = await getCollection("blog");
+
+
+const categoryPosts = posts
+  .filter(
+    (post) =>
+      post.data.category === category
+  )
+  .sort(
+    (a, b) =>
+      b.data.pubDate.valueOf() -
+      a.data.pubDate.valueOf()
+  );
+---
+
+
+<section>
+
+  <h1>
+    {title}
+  </h1>
+
+
+  <p class="description">
+    {description}
+  </p>
+
+
+  <h2>
+    Articles
+  </h2>
+
+
+  <PostList posts={categoryPosts} />
+
+
+</section>
+
+
+
+<style>
+
+section {
+  max-width: 720px;
+}
+
+
+.description {
+
+  color:
+    rgb(var(--gray));
+
+  line-height:
+    1.7;
+
+  margin-bottom:
+    3rem;
+
+}
+
+
+
+h1 {
+
+  font-size:
+    2rem;
+
+  margin-bottom:
+    1rem;
+
+}
+
+
+
+h2 {
+
+  font-size:
+    1.2rem;
+
+  margin-bottom:
+    1.5rem;
+
+}
+
+
+
+</style>
