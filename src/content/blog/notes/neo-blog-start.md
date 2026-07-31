@@ -3,10 +3,7 @@ title: "Neo Blog Start"
 description: "Why I started this blog."
 pubDate: 2026-07-29
 category: "notes"
-tags:
-  - system
-  - learning
-  - creation
+
 ---
 ## Why I build this blog
 

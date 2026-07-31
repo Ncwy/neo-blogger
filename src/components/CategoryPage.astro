@@ -1,98 +1,162 @@
 ---
-import PostList from "./PostList.astro";
 import { getCollection } from "astro:content";
+import PostList from "./PostList.astro";
+
 
 const {
-  category,
-  title,
-  description,
+	category,
+	title,
+	description
 } = Astro.props;
 
 
-const posts = await getCollection("blog");
+
+const categoryNames: Record<string, string> = {
+
+	trading: "Trading",
+
+	tools: "工具人系列",
+
+	notes: "随笔",
+
+};
 
 
-const categoryPosts = posts
-  .filter(
-    (post) =>
-      post.data.category === category
-  )
-  .sort(
-    (a, b) =>
-      b.data.pubDate.valueOf() -
-      a.data.pubDate.valueOf()
-  );
+
+const displayTitle =
+	categoryNames[category] ?? title;
+
+
+
+const posts =
+	await getCollection("blog");
+
+
+
+const categoryPosts =
+	posts
+
+	.filter(
+		(post) =>
+			post.data.category === category
+	)
+
+	.sort(
+		(a,b) =>
+			b.data.pubDate.valueOf()
+			-
+			a.data.pubDate.valueOf()
+	);
+
 ---
 
 
-<section>
-
-  <h1>
-    {title}
-  </h1>
+<section class="category">
 
 
-  <p class="description">
-    {description}
-  </p>
+<header>
 
 
-  <h2>
-    Articles
-  </h2>
+<h1>
+
+	{displayTitle}
+
+</h1>
 
 
-  <PostList posts={categoryPosts} />
+<p>
+
+	{description}
+
+</p>
+
+
+</header>
+
+
+
+
+<section class="articles">
+
+
+<PostList posts={categoryPosts} />
 
 
 </section>
 
 
 
+</section>
+
+
+
+
+
 <style>
 
-section {
-  max-width: 720px;
-}
+
+.category {
+
+	max-width:
+		720px;
 
 
-.description {
-
-  color:
-    rgb(var(--gray));
-
-  line-height:
-    1.7;
-
-  margin-bottom:
-    3rem;
+	margin:
+		auto;
 
 }
+
+
+
+
+header {
+
+	text-align:
+		center;
+
+
+	padding:
+		4rem 0 3rem;
+
+}
+
 
 
 
 h1 {
 
-  font-size:
-    2rem;
+	font-size:
+		2.8rem;
 
-  margin-bottom:
-    1rem;
+
+	margin-bottom:
+		1rem;
+
+}
+
+
+
+
+p {
+
+	color:
+		rgb(var(--gray));
+
+
+	line-height:
+		1.7;
 
 }
 
 
 
-h2 {
 
-  font-size:
-    1.2rem;
+.articles {
 
-  margin-bottom:
-    1.5rem;
+	margin-top:
+		2rem;
 
 }
-
 
 
 </style>

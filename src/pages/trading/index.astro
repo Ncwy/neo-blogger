@@ -7,24 +7,29 @@ import CategoryPage from "../../components/CategoryPage.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={`Trading | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
-  </head>
 
-  <body>
-    <Header />
+<BaseHead
+	title={`Trading | ${SITE_TITLE}`}
+	description={SITE_DESCRIPTION}
+/>
 
-    <main>
-      <CategoryPage
-        category="trading"
-        title="Trading"
-        emoji="📈"
-        description="Trading journal, market observations, strategies, and lessons learned."
-      />
-    </main>
 
-    <Footer />
-  </body>
-</html>
+<Header />
+
+
+<main>
+
+	<CategoryPage
+
+		category="trading"
+
+		title="Trading"
+
+		description="记录交易，而不是预测市场。"
+
+	/>
+
+</main>
+
+
+<Footer />

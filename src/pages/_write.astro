@@ -1,0 +1,629 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+import {
+	SITE_TITLE,
+	SITE_DESCRIPTION
+} from "../consts";
+---
+
+
+<html lang="en">
+
+<head>
+
+<BaseHead
+	title={`Write | ${SITE_TITLE}`}
+	description={SITE_DESCRIPTION}
+/>
+
+</head>
+
+
+<body>
+
+<Header />
+
+
+<main>
+
+
+<h1>
+Write
+</h1>
+
+
+
+<div class="form">
+
+
+<label>
+文章类型
+</label>
+
+
+<select id="category">
+
+<option value="trading">
+Trading
+</option>
+
+
+<option value="tools">
+工具人系列
+</option>
+
+
+<option value="notes">
+随笔
+</option>
+
+
+</select>
+
+
+
+
+<label>
+标题
+</label>
+
+
+<input
+id="title"
+placeholder="Article title"
+/>
+
+
+
+
+<label>
+简介
+</label>
+
+
+<input
+id="description"
+placeholder="Short description"
+/>
+
+
+
+
+<label>
+正文
+</label>
+
+
+<textarea
+id="content"
+rows="15"
+placeholder="Write your article..."
+></textarea>
+
+
+
+
+<div class="buttons">
+
+
+<button id="draft">
+Save Draft
+</button>
+
+
+<button id="publish">
+Generate Publish
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</main>
+
+
+<Footer />
+
+
+
+<script>
+
+
+function getValue(selector) {
+
+
+	const element =
+	document.querySelector(selector);
+
+
+
+	if(
+		element instanceof HTMLInputElement ||
+		element instanceof HTMLTextAreaElement ||
+		element instanceof HTMLSelectElement
+	){
+
+		return element.value;
+
+	}
+
+
+	return "";
+
+}
+
+
+
+
+function getTemplate(category){
+
+
+	if(category === "trading"){
+
+		return `# Trading Review
+
+
+## Market Context
+
+
+## Trade Idea
+
+
+## Execution
+
+
+## Result
+
+
+## Lesson Learned
+`;
+
+	}
+
+
+
+	if(category === "tools"){
+
+		return `# Problem
+
+
+## Background
+
+
+## Situation
+
+
+## Solution
+
+
+## Tools Used
+
+
+## Lesson Learned
+`;
+
+	}
+
+
+
+	if(category === "notes"){
+
+		return `# Thought
+
+
+## Background
+
+
+## Reflection
+
+
+## Conclusion
+`;
+
+	}
+
+
+
+	return "";
+
+}
+
+
+
+
+function createMarkdown(){
+
+
+	const category =
+	getValue("#category");
+
+
+
+	const title =
+	getValue("#title");
+
+
+
+	const description =
+	getValue("#description");
+
+
+
+	const content =
+	getValue("#content");
+
+
+
+	const date =
+	new Date()
+	.toISOString()
+	.substring(0,10);
+
+
+
+	let markdown =
+	"";
+
+
+	markdown +=
+	"---\n";
+
+
+	markdown +=
+	'title: "' +
+	title +
+	'"\n';
+
+
+
+	markdown +=
+	'description: "' +
+	description +
+	'"\n';
+
+
+
+	markdown +=
+	"pubDate: " +
+	date +
+	"\n";
+
+
+
+	markdown +=
+	'category: "' +
+	category +
+	'"\n';
+
+
+
+	markdown +=
+	"---\n\n";
+
+
+
+	markdown +=
+	content;
+
+
+
+	return {
+
+		markdown,
+
+
+		filename:
+		date +
+		"-" +
+		(
+			title
+			.toLowerCase()
+			.trim()
+			.replace(/\s+/g,"-")
+			.replace(/[^a-z0-9-]/g,"")
+			||
+			"new-post"
+		),
+
+
+		category
+
+	};
+
+}
+
+
+
+
+
+function downloadMarkdown(type){
+
+
+	const data =
+	createMarkdown();
+
+
+
+	const blob =
+	new Blob(
+		[
+			data.markdown
+		],
+		{
+			type:
+			"text/markdown"
+		}
+	);
+
+
+
+	const url =
+	URL.createObjectURL(blob);
+
+
+
+	const link =
+	document.createElement("a");
+
+
+
+	link.href =
+	url;
+
+
+
+	link.download =
+	data.filename +
+	".md";
+
+
+
+	link.click();
+
+
+
+	URL.revokeObjectURL(url);
+
+
+
+	alert(
+
+		type +
+		" generated\n\n" +
+
+		"File:\n" +
+		data.filename +
+		".md\n\n" +
+
+		"Move to:\n" +
+
+		"src/content/" +
+
+		(
+			type === "draft"
+			?
+			"drafts/"
+			:
+			"blog/"
+		)
+
+		+
+
+		data.category
+
+	);
+
+}
+
+
+
+
+const categorySelect =
+document.querySelector("#category");
+
+
+const content =
+document.querySelector("#content");
+
+
+
+categorySelect?.addEventListener(
+"change",
+()=>{
+
+
+	if(
+		categorySelect instanceof HTMLSelectElement &&
+		content instanceof HTMLTextAreaElement
+	){
+
+		content.value =
+		getTemplate(
+			categorySelect.value
+		);
+
+	}
+
+
+}
+
+);
+
+
+
+
+
+const draftButton =
+document.querySelector("#draft");
+
+
+
+draftButton?.addEventListener(
+"click",
+()=>{
+
+	downloadMarkdown(
+		"draft"
+	);
+
+}
+
+);
+
+
+
+
+
+const publishButton =
+document.querySelector("#publish");
+
+
+
+publishButton?.addEventListener(
+"click",
+()=>{
+
+	downloadMarkdown(
+		"publish"
+	);
+
+}
+
+);
+
+
+
+</script>
+
+
+
+<style>
+
+
+main {
+
+	width:
+	calc(100% - 2rem);
+
+	max-width:
+	720px;
+
+	margin:
+	3rem auto;
+
+}
+
+
+
+.form {
+
+	display:
+	flex;
+
+	flex-direction:
+	column;
+
+	gap:
+	1rem;
+
+	margin-top:
+	2rem;
+
+}
+
+
+
+label {
+
+	font-weight:
+	600;
+
+}
+
+
+
+input,
+textarea,
+select {
+
+	padding:
+	0.8rem;
+
+	font-size:
+	1rem;
+
+	font-family:
+	inherit;
+
+	border-radius:
+	8px;
+
+	border:
+	1px solid rgb(var(--gray-light));
+
+}
+
+
+
+textarea {
+
+	resize:
+	vertical;
+
+}
+
+
+
+.buttons {
+
+	display:
+	flex;
+
+	gap:
+	1rem;
+
+}
+
+
+
+button {
+
+	padding:
+	0.8rem 1.2rem;
+
+	border-radius:
+	10px;
+
+	border:
+	none;
+
+	cursor:
+	pointer;
+
+	font-size:
+	1rem;
+
+}
+
+
+
+button:hover {
+
+	opacity:
+	0.8;
+
+}
+
+
+</style>
+
+
+</body>
+
+</html>

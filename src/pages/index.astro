@@ -12,61 +12,31 @@ import {
 } from "../consts";
 
 
-const posts = await getCollection("blog");
+const posts = (await getCollection("blog"))
 
-
-const tradingPosts = posts
-  .filter(
-    (post) =>
-      post.data.category === "trading"
-  )
   .sort(
-    (a, b) =>
-      b.data.pubDate.valueOf() -
+    (a,b) =>
+      b.data.pubDate.valueOf()
+      -
       a.data.pubDate.valueOf()
   )
-  .slice(0, 3);
 
-
-
-const toolsPosts = posts
-  .filter(
-    (post) =>
-      post.data.category === "tools"
-  )
-  .sort(
-    (a, b) =>
-      b.data.pubDate.valueOf() -
-      a.data.pubDate.valueOf()
-  )
-  .slice(0, 3);
-
-
-
-const notesPosts = posts
-  .filter(
-    (post) =>
-      post.data.category === "notes"
-  )
-  .sort(
-    (a, b) =>
-      b.data.pubDate.valueOf() -
-      a.data.pubDate.valueOf()
-  )
-  .slice(0, 3);
+  .slice(0,5);
 
 ---
 
 
 <!doctype html>
+
 <html lang="en">
+
 
 <head>
 
-  <BaseHead
-    title={SITE_TITLE}
-    description={SITE_DESCRIPTION}
-  />
+<BaseHead
+  title={SITE_TITLE}
+  description={SITE_DESCRIPTION}
+/>
 
 </head>
 
@@ -80,77 +50,109 @@ const notesPosts = posts
 <main>
 
 
-<section class="intro">
+<section class="hero">
+
 
 <h1>
-  Neo
+Neo Blog
 </h1>
 
 
 <p>
-  A minimal personal knowledge system.
+
+记录交易、问题和思考。
+
+一个长期积累的个人知识系统。
+
 </p>
-
-</section>
-
-
-
-<section>
-
-<h2>
-  Trading
-</h2>
-
-<p class="description">
-  记录交易，而不是预测市场。
-</p>
-
-
-<PostList posts={tradingPosts} />
 
 
 </section>
 
 
 
-<section>
+
+<section class="categories">
+
+
+
+<a href={`${import.meta.env.BASE_URL}trading/`}>
 
 <h2>
-  工具人系列
+Trading
 </h2>
 
 
-<p class="description">
-  记录那些没人教你，但有一天你可能会用到的事情。
+<p>
+记录交易观察、决策过程和复盘经验。
 </p>
 
 
-<PostList posts={toolsPosts} />
-
-
-</section>
+</a>
 
 
 
-<section>
+
+
+<a href={`${import.meta.env.BASE_URL}tools/`}>
 
 <h2>
-  随笔
+工具人系列
 </h2>
 
 
-<p class="description">
-  记录那些随着时间慢慢沉淀下来的想法。
+<p>
+记录那些没人教你，
+但有一天你可能会用到的问题解决经验。
 </p>
 
 
-<PostList posts={notesPosts} />
+</a>
+
+
+
+
+
+<a href={`${import.meta.env.BASE_URL}notes/`}>
+
+<h2>
+随笔
+</h2>
+
+
+<p>
+记录随着时间沉淀下来的想法、观察和经验。
+</p>
+
+
+</a>
+
 
 
 </section>
+
+
+
+
+
+<section class="latest">
+
+
+<h2>
+Latest Posts
+</h2>
+
+
+
+<PostList posts={posts} />
+
+
+</section>
+
 
 
 </main>
+
 
 
 <Footer />
@@ -158,7 +160,9 @@ const notesPosts = posts
 
 </body>
 
+
 </html>
+
 
 
 
@@ -167,82 +171,166 @@ const notesPosts = posts
 
 main {
 
-  width:
-    calc(100% - 2em);
+width:
+calc(100% - 2rem);
 
-  max-width:
-    720px;
+max-width:
+720px;
 
-  margin:
-    auto;
-
-}
-
-
-
-.intro {
-
-  padding:
-    5rem 0 3rem;
+margin:
+auto;
 
 }
 
 
 
-.intro h1 {
 
-  font-size:
-    3rem;
+.hero {
 
-  margin-bottom:
-    1rem;
+text-align:
 
-}
+center;
 
 
+padding:
 
-.intro p {
-
-  color:
-    rgb(var(--gray));
-
-  font-size:
-    1.1rem;
+6rem 0 5rem;
 
 }
 
 
 
-section {
+.hero h1 {
 
-  margin:
-    4rem 0;
+font-size:
 
-}
-
+3rem;
 
 
-h2 {
+margin-bottom:
 
-  margin-bottom:
-    .5rem;
+1rem;
 
 }
 
 
 
-.description {
+.hero p {
 
-  color:
-    rgb(var(--gray));
+color:
 
-  line-height:
-    1.7;
+rgb(var(--gray));
 
-  margin-bottom:
-    2rem;
+
+line-height:
+
+1.8;
+
+
+max-width:
+
+500px;
+
+
+margin:
+
+auto;
 
 }
+
+
+
+.categories {
+
+display:
+
+flex;
+
+
+flex-direction:
+
+column;
+
+
+gap:
+
+2rem;
+
+}
+
+
+
+.categories a {
+
+text-decoration:
+
+none;
+
+
+color:
+
+inherit;
+
+
+padding:
+
+1.5rem 0;
+
+
+border-bottom:
+
+1px solid
+
+rgb(var(--gray-light));
+
+}
+
+
+
+.categories h2 {
+
+margin:
+
+0 0 0.5rem;
+
+}
+
+
+
+.categories p {
+
+color:
+
+rgb(var(--gray));
+
+
+line-height:
+
+1.7;
+
+}
+
+
+
+
+.latest {
+
+margin-top:
+
+5rem;
+
+}
+
+
+
+.latest h2 {
+
+margin-bottom:
+
+2rem;
+
+}
+
 
 
 </style>

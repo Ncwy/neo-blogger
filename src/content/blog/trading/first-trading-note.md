@@ -3,10 +3,6 @@ title: "My First Trading Note"
 description: "Trading journal and market review."
 pubDate: 2026-07-30
 category: "trading"
-tags:
-  - trading
-  - journal
-  - learning
 ---
 
 # My First Trading Note

@@ -11,18 +11,18 @@ import {
 
 
 <!doctype html>
+
 <html lang="en">
 
 
 <head>
 
-	<BaseHead
-		title={`About | ${SITE_TITLE}`}
-		description={SITE_DESCRIPTION}
-	/>
+<BaseHead
+	title={`About | ${SITE_TITLE}`}
+	description={SITE_DESCRIPTION}
+/>
 
 </head>
-
 
 
 <body>
@@ -31,32 +31,23 @@ import {
 <Header />
 
 
-
 <main>
 
 
 
-<section>
+<section class="intro">
 
 
 <h1>
-	About Neo
+About
 </h1>
 
 
-
-<h2>
-	Build systems.<br />
-	Learn continuously.<br />
-	Think clearly.
-</h2>
-
-
-
 <p>
-	Neo Blog is a personal knowledge system
-	for recording learning, experiments,
-	and ideas over time.
+
+Neo Blog is a place to record
+things worth keeping.
+
 </p>
 
 
@@ -70,42 +61,43 @@ import {
 
 
 <h2>
-	Why I Build This Blog
+Why
 </h2>
 
 
-
 <p>
-	This blog is not only a place to publish articles.
+
+This blog is not only a place
+to publish articles.
+
 </p>
 
 
 <p>
-	It is a system to record:
-</p>
 
+It is a personal knowledge system
+for recording:
+
+</p>
 
 
 <ul>
 
-	<li>
-		What I learn
-	</li>
+<li>
+What I learn
+</li>
 
+<li>
+What I build
+</li>
 
-	<li>
-		What I build
-	</li>
+<li>
+What I discover
+</li>
 
-
-	<li>
-		What I think
-	</li>
-
-
-	<li>
-		What I discover through experiments
-	</li>
+<li>
+What I think
+</li>
 
 </ul>
 
@@ -116,57 +108,58 @@ import {
 
 
 
-
-
 <section>
 
 
 <h2>
-	Three Directions
+Categories
 </h2>
 
 
 
 <h3>
-	📈 Trading
+Trading
 </h3>
 
 
 <p>
-	Recording trading journals,
-	market observations,
-	strategy experiments,
-	and lessons learned.
+
+Recording trading ideas,
+market observations,
+and lessons from decisions.
+
 </p>
 
 
 
 
+
 <h3>
-	🌱 Life
-</h3>
+工具人系列</h3>
 
 
 <p>
-	Exploring Career Lab,
-	Home Lab,
-	Life OS,
-	and personal growth systems.
+
+Recording problems,
+solutions,
+and experiences from daily life.
+
 </p>
 
 
 
 
+
 <h3>
-	💡 Ideas
+随笔
 </h3>
 
 
 <p>
-	Writing about technology,
-	business,
-	systems,
-	and observations.
+
+Recording thoughts
+that become clearer over time.
+
 </p>
 
 
@@ -177,115 +170,23 @@ import {
 
 
 
-
-
-
 <section>
 
 
 <h2>
-	Current Experiments
+Approach
 </h2>
 
 
+<p>
 
-<ul>
-
-
-<li>
-
-<strong>
-Career Lab
-</strong>
-
-<br />
-
-Exploring career direction,
-skills,
-and future opportunities.
-
-</li>
-
-
-
-<li>
-
-<strong>
-Home Lab
-</strong>
-
-<br />
-
-Building practical skills
-in systems,
-automation,
-and technology.
-
-</li>
-
-
-
-<li>
-
-<strong>
-Life OS
-</strong>
-
-<br />
-
-Designing personal systems
-for learning,
-health,
-and productivity.
-
-</li>
-
-
-
-</ul>
-
-
-</section>
-
-
-
-
-
-
-
-<section>
-
-
-<h2>
-	Principles
-</h2>
-
-
-
-<ul>
-
-
-<li>
-Think long term.
-</li>
-
-
-<li>
-Build systems instead of relying on motivation.
-</li>
-
-
-<li>
 Learn through experiments.
-</li>
 
+Build systems instead of relying on motivation.
 
-<li>
 Keep improving through consistency.
-</li>
 
-
-</ul>
+</p>
 
 
 </section>
@@ -299,6 +200,7 @@ Keep improving through consistency.
 
 
 <Footer />
+
 
 
 </body>
@@ -315,19 +217,19 @@ Keep improving through consistency.
 main {
 
 	width:
-		calc(100% - 2em);
+	calc(100% - 2rem);
 
 
 	max-width:
-		720px;
+	720px;
 
 
 	margin:
-		auto;
+	auto;
 
 
 	padding:
-		3rem 0;
+		4rem 0;
 
 }
 
@@ -336,7 +238,16 @@ main {
 section {
 
 	padding:
-		1.5rem 0;
+		1rem 0 2rem;
+
+}
+
+
+
+.intro {
+
+	padding-bottom:
+		3rem;
 
 }
 
@@ -344,8 +255,8 @@ section {
 
 h1 {
 
-	margin-bottom:
-		1.5rem;
+	font-size:
+		2.8rem;
 
 }
 
@@ -372,10 +283,10 @@ h3 {
 p {
 
 	line-height:
-		1.7;
+		1.8;
 
 	color:
-		rgb(var(--gray-dark));
+	rgb(var(--gray-dark));
 
 }
 
@@ -385,7 +296,6 @@ li {
 
 	margin-bottom:
 		0.8rem;
-
 
 	line-height:
 		1.6;

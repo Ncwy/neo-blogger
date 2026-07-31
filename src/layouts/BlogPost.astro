@@ -9,7 +9,9 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
 
+
 type Props = CollectionEntry<'blog'>['data'];
+
 
 
 const {
@@ -18,26 +20,44 @@ const {
 	pubDate,
 	updatedDate,
 	heroImage,
-	category,
-	tags
+	category
 } = Astro.props;
+
+
+
+const categoryNames = {
+
+	trading: "Trading",
+
+	tools: "工具人系列",
+
+	notes: "随笔",
+
+};
+
+
+
+const categoryName =
+	categoryNames[category] ?? category;
 
 
 
 const posts = (await getCollection('blog'))
 
 	.sort(
-		(a, b) =>
-			b.data.pubDate.valueOf() -
+		(a,b) =>
+			b.data.pubDate.valueOf()
+			-
 			a.data.pubDate.valueOf()
 	);
 
 
 
-const currentIndex = posts.findIndex(
-	(post) =>
-		post.id === Astro.params.id
-);
+const currentIndex =
+	posts.findIndex(
+		(post) =>
+			post.id === Astro.params.id
+	);
 
 
 
@@ -92,13 +112,14 @@ const nextPost =
 
 			<a href={`${import.meta.env.BASE_URL}${category}/`}>
 
-				← Back to {category}
+				← {categoryName}
 
 			</a>
 
 		</p>
 
 	)
+
 }
 
 
@@ -121,10 +142,6 @@ const nextPost =
 
 
 
-<div class="meta">
-
-
-
 <p class="date">
 
 	<FormattedDate date={pubDate} />
@@ -133,28 +150,13 @@ const nextPost =
 
 
 
+
 {
 	category && (
 
-	<p>
+	<p class="meta">
 
-		📂 {category}
-
-	</p>
-
-	)
-
-}
-
-
-
-
-{
-	tags && (
-
-	<p>
-
-		🏷 {tags.join(' · ')}
+		📂 {categoryName}
 
 	</p>
 
@@ -183,10 +185,6 @@ const nextPost =
 
 
 
-</div>
-
-
-
 <hr />
 
 
@@ -201,6 +199,7 @@ const nextPost =
 
 	<div class="hero-image">
 
+
 		<Image
 
 			width={1020}
@@ -212,6 +211,7 @@ const nextPost =
 			alt={title}
 
 		/>
+
 
 	</div>
 
@@ -232,13 +232,12 @@ const nextPost =
 <nav class="post-navigation">
 
 
-
 {
 	previousPost && (
 
 	<a href={`${import.meta.env.BASE_URL}blog/${previousPost.id}/`}>
 
-		← {previousPost.data.title}
+			← Previous
 
 	</a>
 
@@ -254,7 +253,7 @@ const nextPost =
 
 	<a href={`${import.meta.env.BASE_URL}blog/${nextPost.id}/`}>
 
-		{nextPost.data.title} →
+			Next →
 
 	</a>
 
@@ -263,9 +262,7 @@ const nextPost =
 }
 
 
-
 </nav>
-
 
 
 
@@ -280,6 +277,7 @@ const nextPost =
 
 
 <Footer />
+
 
 
 </body>
@@ -327,7 +325,7 @@ main {
 
 
 	padding:
-		2em 0 1em;
+		3rem 0 2rem;
 
 }
 
@@ -342,6 +340,10 @@ main {
 	line-height:
 		1.2;
 
+
+	font-size:
+		2.5rem;
+
 }
 
 
@@ -355,23 +357,52 @@ main {
 
 
 
-.meta {
+.date {
+
+	color:
+		rgb(var(--gray));
+
 
 	font-size:
 		0.9rem;
 
 
-	color:
-		rgb(var(--gray));
+	margin-top:
+		1.5rem;
 
 }
 
 
 
-.meta p {
+.meta {
+
+	color:
+		rgb(var(--gray));
+
+
+	font-size:
+		0.9rem;
+
 
 	margin:
-		0.3em;
+		0.5rem 0;
+
+}
+
+
+
+.updated {
+
+	color:
+		rgb(var(--gray));
+
+
+	font-size:
+		0.85rem;
+
+
+	font-style:
+		italic;
 
 }
 
@@ -399,20 +430,10 @@ main {
 
 
 
-.updated {
-
-	font-style:
-		italic;
-
-}
-
-
-
-
 .hero-image {
 
 	margin:
-		2em 0;
+		2rem 0;
 
 }
 
@@ -480,10 +501,6 @@ main {
 	text-decoration:
 		none;
 
-
-	max-width:
-		45%;
-
 }
 
 
@@ -491,7 +508,7 @@ main {
 hr {
 
 	margin-top:
-		2em;
+		2rem;
 
 }
 
