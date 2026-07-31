@@ -1,0 +1,737 @@
+<!doctype html>
+
+<html lang="zh">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+Neo Writer
+</title>
+
+
+<style>
+
+body {
+
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+sans-serif;
+
+max-width:
+720px;
+
+margin:
+40px auto;
+
+padding:
+0 20px;
+
+}
+
+
+h1 {
+
+margin-bottom:
+30px;
+
+}
+
+
+input,
+textarea,
+select {
+
+width:
+100%;
+
+padding:
+12px;
+
+margin:
+8px 0 18px;
+
+font-size:
+16px;
+
+box-sizing:
+border-box;
+
+border-radius:
+8px;
+
+border:
+1px solid #ccc;
+
+}
+
+
+textarea {
+
+height:
+250px;
+
+font-family:
+inherit;
+
+}
+
+
+.command {
+
+height:
+80px;
+
+background:
+#f5f5f5;
+
+}
+
+
+button {
+
+padding:
+12px 20px;
+
+border-radius:
+8px;
+
+border:
+none;
+
+cursor:
+pointer;
+
+font-size:
+16px;
+
+margin-right:
+10px;
+
+}
+
+
+.radio {
+
+width:auto;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<h1>
+Neo Writer
+</h1>
+
+
+
+<label>
+分类
+</label>
+
+
+<select id="category">
+
+<option value="trading">
+Trading
+</option>
+
+
+<option value="tools">
+工具人系列
+</option>
+
+
+<option value="notes">
+随笔
+</option>
+
+</select>
+
+
+
+
+<label>
+标题
+</label>
+
+
+<input
+id="title"
+placeholder="Article title"
+/>
+
+
+
+
+<label>
+简介
+</label>
+
+
+<input
+id="description"
+placeholder="Short description"
+/>
+
+
+
+
+<label>
+图片
+</label>
+
+
+<input
+type="file"
+id="image"
+accept="image/*"
+/>
+
+
+
+
+
+<p>
+图片位置:
+</p>
+
+
+<label>
+
+<input
+class="radio"
+type="radio"
+name="imageLocation"
+value="Desktop"
+checked
+>
+
+Desktop
+
+</label>
+
+
+<label>
+
+<input
+class="radio"
+type="radio"
+name="imageLocation"
+value="Downloads"
+>
+
+Downloads
+
+</label>
+
+
+<label>
+
+<input
+class="radio"
+type="radio"
+name="imageLocation"
+value="Documents"
+>
+
+Documents
+
+</label>
+
+
+
+
+
+
+<textarea
+id="imageCommand"
+class="command"
+readonly
+placeholder="图片移动命令"
+></textarea>
+
+
+
+
+
+<button id="copyImageCommand">
+
+Copy
+
+</button>
+
+
+
+
+
+
+
+<label>
+正文
+</label>
+
+
+<textarea
+id="content"
+></textarea>
+
+
+
+
+
+
+<button id="publish">
+
+Publish
+
+</button>
+
+
+
+
+
+<script>
+
+
+let imageMarkdown = "";
+
+let imageCommand = "";
+
+let publishCommand = "";
+
+let imageName = "";
+
+let imageFolder = "Desktop";
+
+
+
+
+
+const templates = {
+
+
+trading:
+
+`## Market Context
+
+
+## Trade Idea
+
+
+## Execution
+
+
+## Result
+
+
+## Lesson Learned
+`,
+
+
+
+tools:
+
+`## Problem
+
+
+## Solution
+
+
+## Steps
+
+
+## Lesson Learned
+`,
+
+
+
+notes:
+
+`## Thought
+
+
+## Reflection
+
+
+## Conclusion
+`
+
+};
+
+
+
+
+
+
+const category =
+document.querySelector("#category");
+
+
+const content =
+document.querySelector("#content");
+
+
+content.value =
+templates.trading;
+
+
+
+
+
+category.addEventListener(
+"change",
+()=>{
+
+
+content.value =
+templates[category.value];
+
+
+updateImageCommand();
+
+
+});
+
+
+
+
+
+
+
+function slugify(text){
+
+
+return text
+
+.toLowerCase()
+
+.trim()
+
+.replace(
+/\s+/g,
+"-"
+)
+
+.replace(
+/[^a-z0-9\-]/g,
+""
+)
+
+||
+"new-post";
+
+
+}
+
+
+
+
+
+
+
+function today(){
+
+
+return new Date()
+
+.toISOString()
+
+.substring(
+0,
+10
+);
+
+
+}
+
+
+
+
+
+
+
+
+function updateImageCommand(){
+
+
+if(!imageName){
+
+return;
+
+}
+
+
+imageCommand =
+
+
+`mv ~/${imageFolder}/${imageName} /Users/Neo/my-blog/public/images/${category.value}/`;
+
+
+
+document
+.querySelector("#imageCommand")
+.value =
+imageCommand;
+
+
+}
+
+
+
+
+
+
+
+
+
+document
+.querySelector("#image")
+.addEventListener(
+"change",
+(e)=>{
+
+
+const file =
+e.target.files[0];
+
+
+if(!file){
+
+return;
+
+}
+
+
+
+imageName =
+file.name;
+
+
+
+imageMarkdown =
+
+`\n\n![${imageName}](/neo-blogger/images/${category.value}/${imageName})\n\n`;
+
+
+
+updateImageCommand();
+
+
+
+});
+
+
+
+
+
+
+
+
+
+document
+.querySelectorAll(
+'input[name="imageLocation"]'
+)
+.forEach(
+(item)=>{
+
+
+item.addEventListener(
+"change",
+()=>{
+
+
+imageFolder =
+item.value;
+
+
+updateImageCommand();
+
+
+});
+
+
+});
+
+
+
+
+
+
+
+
+
+document
+.querySelector("#copyImageCommand")
+.addEventListener(
+"click",
+()=>{
+
+
+navigator.clipboard.writeText(
+imageCommand
+)
+.then(()=>{
+
+
+alert(
+"Image move command copied"
+);
+
+
+});
+
+
+});
+
+
+
+
+
+
+
+
+
+document
+.querySelector("#publish")
+.addEventListener(
+"click",
+()=>{
+
+
+const title =
+document.querySelector("#title").value;
+
+
+const description =
+document.querySelector("#description").value;
+
+
+const cat =
+category.value;
+
+
+
+const filename =
+
+slugify(title)
+
++
+
+".md";
+
+
+
+
+
+const markdown =
+
+
+`---
+title: "${title}"
+description: "${description}"
+pubDate: ${today()}
+category: "${cat}"
+---
+
+
+${imageMarkdown}
+
+
+${content.value}
+
+`;
+
+
+
+
+
+
+const blob =
+new Blob(
+[
+markdown
+],
+{
+type:
+"text/markdown"
+}
+);
+
+
+
+const link =
+document.createElement("a");
+
+
+link.href =
+URL.createObjectURL(blob);
+
+
+link.download =
+filename;
+
+
+link.click();
+
+
+
+
+
+
+
+publishCommand =
+
+
+`mv ~/Downloads/${filename} /Users/Neo/my-blog/src/content/blog/${cat}/
+
+cd /Users/Neo/my-blog
+
+git add .
+
+git commit -m "add ${filename}"
+
+git push`;
+
+
+
+
+
+
+navigator.clipboard.writeText(
+publishCommand
+)
+.then(()=>{
+
+
+alert(
+"Markdown downloaded\n\nPublish command copied"
+);
+
+
+});
+
+
+
+});
+
+
+
+</script>
+
+
+</body>
+
+</html>
